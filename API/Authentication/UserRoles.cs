@@ -9,5 +9,6 @@ namespace API.Authentication
     {
         public const string Admin = "AdminROLE";
         public const string User = "UserROLE";
+        public const string SuperUser = "SuperUserROLE";
     }
 }
