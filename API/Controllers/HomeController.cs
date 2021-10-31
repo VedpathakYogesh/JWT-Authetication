@@ -1,6 +1,7 @@
 ﻿using API.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,26 +11,26 @@ using System.Threading.Tasks;
 
 namespace API.Controllers
 {
-    [Authorize(Roles = UserRoles.Admin)]
+    
+    [Authorize(Roles = UserRoles.User)]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
+
     [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    public class HomeController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        private readonly ILogger<WeatherForecastController> _logger;
+        private readonly ILogger<HomeController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
 
-       // [Authorize(Roles = UserRoles.Admin)]
-        [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
 
@@ -43,21 +44,5 @@ namespace API.Controllers
             .ToArray();
         }
 
-
-      //  [Authorize(Roles = UserRoles.User)]
-        [HttpGet]
-        [Route("GetUsers")]
-        public IEnumerable<WeatherForecast> GetUsers()
-        {
-
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();
-        }
     }
 }
